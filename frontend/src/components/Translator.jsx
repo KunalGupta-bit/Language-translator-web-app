@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const Translator = () => {
   const [text, setText] = useState("");
   const [translatedText, setTranslatedText] = useState("");
@@ -20,7 +22,7 @@ const Translator = () => {
   // Fetch Languages
   const fetchLanguages = async () => {
     try {
-      const res = await fetch("http://localhost:5000/languages");
+      const res = await fetch(`${API_URL}/languages`);
       const data = await res.json();
       setLanguages(data);
     } catch (error) {
@@ -30,7 +32,7 @@ const Translator = () => {
 
   // Fetch History
   const fetchHistory = async () => {
-    const res = await fetch("http://localhost:5000/history");
+    const res = await fetch(`${API_URL}/history`);
     const data = await res.json();
     setHistory(data);
   };
@@ -74,7 +76,7 @@ const Translator = () => {
     
     setDetecting(true);
     try {
-      const res = await fetch("http://localhost:5000/detect-language", {
+      const res = await fetch(`${API_URL}/detect-language`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: inputText }),
@@ -107,7 +109,7 @@ const Translator = () => {
   // Translate
   const handleTranslate = async () => {
     setLoading(true);
-    const res = await fetch("http://localhost:5000/translate", {
+    const res = await fetch(`${API_URL}/translate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

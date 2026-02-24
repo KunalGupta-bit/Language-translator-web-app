@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: language-translator-backend
+    runtime: python
+    pythonVersion: 3.11
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_APP
+        value: app:app

@@ -1,10 +1,11 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from translator import translate_text, get_all_languages, detect_language
 from db import save_translation, get_history
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": ["*"]}})
 
 @app.route("/languages", methods=["GET"])
 def languages():
@@ -47,4 +48,6 @@ def history():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    debug = os.environ.get("FLASK_ENV") == "development"
+    app.run(host="0.0.0.0", port=port, debug=debug)
